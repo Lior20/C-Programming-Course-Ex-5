@@ -249,7 +249,7 @@ CPU *remove_cpu(CPU *head, char *curr_name)
 
 	CPU *cur = NULL, *prev = NULL;
 	cur = head;
-	if (strcmp(cur->name, curr_name) == 0)// If there is a match.
+	if (strcmp(cur->name, curr_name) == 0)// If there is a match for the first CPU in the list.
 	{
 		head = head->next;
 		free(cur);
