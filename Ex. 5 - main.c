@@ -167,8 +167,9 @@ CPU* new_cpu(char* name, int copies, CPU *head)
 CPU* sort_list(CPU *head, CPU *new_cpu)
 {
 	CPU *curr_cpu, *prev_cpu = NULL;
-
-	if (head == NULL) return new_cpu;
+	
+	if (new_cpu = 1) return new_cpu; // error in creating new CPU
+	if (head == NULL) return new_cpu; // empty list
 	if (strcmp(new_cpu->name, head->name) < 0)
 	{
 		new_cpu->next = head;
@@ -183,8 +184,7 @@ CPU* sort_list(CPU *head, CPU *new_cpu)
 	prev_cpu->next = new_cpu;
 	new_cpu->next = curr_cpu;
 
-	if (new_cpu != 1) return head;
-	else return 1;
+	return head;
 }
 
 //Input: File that contain's list of cpus and the number of copies for each.
@@ -200,13 +200,13 @@ CPU *create_list(FILE *file)
 	while (fgets(line, MAX_STR, fcpuread))
 	{
 		strcpy(name, strtok(line, "$"));
-		name[strlen(name) - 1] = '\0';
+		name[strlen(name) - 1] = '\0'; // replace the space char at the end with '\0'
 		strcpy(temp, strtok(NULL, "$"));
 		if (temp[-1] == '\n') temp[strlen(temp) - 1] = '\0';
-		copies = atoi(temp);
+		copies = atoi(temp); // convert str to int
 		CPU *a = new_cpu(name, copies, head);
-		if (sort_list != 1) head = sort_list(head, a);
-		else
+		if (sort_list(head, a) != 1) head = sort_list(head, a); // check for error, if working - sort list.
+		else // in case of error
 		{
 			fclose(fcpuread);
 			return 1;
@@ -224,9 +224,9 @@ CPU *rename_cpu(CPU *head, char *curr_name, char *new_name)
 	CPU *curr_cpu = NULL;
 	int exist_copies = 0;
 	char *cur_name = curr_name + 1; // Trim leading space.
-	new_name++;
+	new_name++; // Trim leading space.
 	curr_cpu = head;
-	if (head == NULL) return; // Empty list, no CPU to rename.
+	if (head == NULL) return head; // Empty list, no CPU to rename.
 	while (curr_cpu != NULL) // Not an empty list.
 		if (strcmp(curr_cpu->name, cur_name) == 0) // A match has found.
 		{
@@ -245,7 +245,7 @@ CPU *rename_cpu(CPU *head, char *curr_name, char *new_name)
 //Function functionality : remove specific cpu from the list.
 CPU *remove_cpu(CPU *head, char *curr_name)
 {
-	if (head == NULL) return head; // In case of 1 cpu or no cpu in the list.
+	if (head == NULL) return head; // In case of empty list.
 
 	CPU *cur = NULL, *prev = NULL;
 	cur = head;
@@ -261,7 +261,7 @@ CPU *remove_cpu(CPU *head, char *curr_name)
 		prev = cur;
 		cur = cur->next;
 	}
-	if (cur != NULL)
+	if (cur != NULL) // in case of match
 	{
 		prev->next = cur->next;
 		free(cur);
