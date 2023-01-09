@@ -31,8 +31,8 @@ int main(int argc, char *argv[])
 	CPU *head = NULL;
 	char line[MAX_STR];
 	int act_num = 0;
-	f_act = fopen(argv[2], "r");
 	if (check_arg(argc, argv) != 0) return 1;
+	f_act = fopen(argv[2], "r");
 	fgets(line, MAX_STR, f_act);
 	if (create_list(argv[1]) != 1) head = create_list(argv[1]);
 	else return 1;
@@ -120,12 +120,15 @@ int check_arg(int num_of_arg_rec, char *argv[])
 		printf("Error: opening %s failed\n", argv[2]);
 		return 1;
 	}
-	if (NULL == (fptr3 = fopen(argv[3], "r")))
+	if (NULL == (fptr3 = fopen(argv[3], "w")))
 	{
 		// Error with opening a file
 		printf("Error: opening %s failed\n", argv[3]);
 		return 1;
 	}
+	fclose(fptr1);
+	fclose(fptr2);
+	fclose(fptr3);
 	return 0;
 }
 
